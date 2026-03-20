@@ -6,6 +6,6 @@ namespace TodoApi.Models
     {
         public int Id { get; set; } // Identificador único (chave primária)
         public string? Titulo { get; set; } // O nome da tarefa
-        public bool EstaCompleta { get; set; } // Status
+        public bool estaCompleta { get; set; } // Status
     }
 }

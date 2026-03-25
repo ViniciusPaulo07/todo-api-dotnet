@@ -1,21 +1,23 @@
-# Simples Todo List API com ASP.NET Core
+# 🚀 Todo List API com ASP.NET Core
 
 ## 📌 Descrição do projeto
 
-Uma REST API para gerenciamento de tarefas com operações CRUD em ASP.NET Core.
-Permitindo que você crie, liste, atualize e remova suas tarefas, dando mais autonomia para sua rotina.
+Uma REST API para gerenciamento de tarefas (ToDo List), desenvolvida com ASP.NET Core e Entity Framework Core.
+Permitindo criar, listar, atualizar e remover tarefas com persistência em banco de dados SQL Server.
 
 ## 🚀 Funcionalidades
 
-- Criar Tarefas
-- Listar Tarefas
-- Atualizar Tarefas
-- Remover Tarefas
+- ✅ Criar Tarefas
+- 📄 Listar Tarefas
+- ✏️ Atualizar Tarefas
+- ❌ Remover Tarefas
 
 ## 🛠 Tecnologias Utilizadas
 
 - C#
 - ASP.NET Core Web API
+- Entity Framework Core
+- SQL Server
 - Swashbuckle
 
 ## ▶️ Como Rodar o Projeto
@@ -28,7 +30,11 @@ Permitindo que você crie, liste, atualize e remova suas tarefas, dando mais aut
    ```bash
    cd todo-api-dotnet
    ```
-3. Rodar o projeto
+3. Criar o Banco de dados
+   ```bash
+   dotnet ef database update
+   ```
+4. Rodar o projeto
    ```bash
    dotnet run
    ```
@@ -49,6 +55,6 @@ DELETE /api/tasks/{id}
 ## 📦 Exemplo de requisição (POST)
 
 {
-"titulo": "Estudar C#",
-"estaCompleta": false
+   "titulo": "Estudar C#",
+   "estaCompleta": false
 }

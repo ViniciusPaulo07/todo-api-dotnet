@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 using System.Linq;
 
@@ -6,50 +7,58 @@ using System.Linq;
 [Route("api/[controller]")]
 public class TasksController : ControllerBase
 {
-    [HttpGet]
-    public ActionResult<List<Tarefa>> Get()
+
+    private readonly AppDbContext _context;
+
+    public TasksController(AppDbContext context)
     {
-        return Ok(tarefas);
+        _context = context;
     }
 
-    private static List<Tarefa> tarefas = new List<Tarefa>();
+    [HttpGet]
+    public ActionResult Get()
+    {
+        return Ok(_context.Tarefas.ToList());
+    }
+
 
     [HttpPost]
-    public ActionResult<Tarefa> Post([FromBody] Tarefa tarefa)
+    public ActionResult Post(Tarefa tarefa)
     {
-        tarefas.Add(tarefa);
-        return Ok(tarefa);
+        _context.Tarefas.Add(tarefa);
+        _context.SaveChanges();
+
+        return Created("", tarefa);
     }
 
     [HttpPut("{id}")]
-    public ActionResult Put(int id, [FromBody] Tarefa tarefaAtualizada)
+    public ActionResult Put(int id, Tarefa tarefa)
     {
 
-        var tarefa = tarefas.FirstOrDefault(t => t.Id == id);
+        var tarefaExistente = _context.Tarefas.Find(id);
 
-        if (tarefa == null)
-        {
+        if (tarefaExistente == null)
             return NotFound();
-        }
 
-        tarefa.Titulo = tarefaAtualizada.Titulo;
-        tarefa.EstaCompleta = tarefaAtualizada.EstaCompleta;
+        tarefaExistente.Titulo = tarefa.Titulo;
+        tarefaExistente.estaCompleta = tarefa.estaCompleta;
 
-        return Ok(tarefa);
+        _context.SaveChanges();
+
+        return NoContent();
         
     }
 
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     { 
-        var tarefa = tarefas.FirstOrDefault(t =>t.Id == id);
+        var tarefa = _context.Tarefas.Find(id);
 
         if(tarefa == null)
-        {
             return NotFound();
-        }
 
-        tarefas.Remove(tarefa);
+        _context.Tarefas.Remove(tarefa);
+        _context.SaveChanges();
 
         return NoContent();
     }
